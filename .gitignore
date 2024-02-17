@@ -1,4 +1,9 @@
-*.db
-*.py[cod]
-.web
+*.db
+
+*.py[cod]
+
+.web
+
+.env
+
 __pycache__/
