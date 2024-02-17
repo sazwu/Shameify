@@ -11,46 +11,6 @@ import NextHead from "next/head"
 
 
 
-export function Root_c3147bee8f7d6274585e64d5b1f9f38c () {
-  
-    const handleSubmit_3f653449f441fbd5c1905281b5696878 = useCallback((ev) => {
-        const $form = ev.target
-        ev.preventDefault()
-        const form_data = {...Object.fromEntries(new FormData($form).entries()), ...{}}
-
-        addEvents([Event("state.form_input_state.handle_submit", {form_data:form_data})])
-
-        if (true) {
-            $form.reset()
-        }
-    })
-    
-  const [addEvents, connectError] = useContext(EventLoopContext);
-
-
-  return (
-    <RadixFormRoot className={`Root`} css={{"width": "100%"}} onSubmit={handleSubmit_3f653449f441fbd5c1905281b5696878}>
-  <RadixThemesFlex align={`start`} css={{"width": "100%", "flexDirection": "column"}} gap={`2`}>
-  <RadixThemesTextField.Input css={{"defaultValue": "search"}} name={`input`} placeholder={`Input text here...`} required={true} type={`password`}/>
-  <RadixThemesButton type={`submit`}>
-  {`Submit`}
-</RadixThemesButton>
-</RadixThemesFlex>
-</RadixFormRoot>
-  )
-}
-
-export function Text_656977eb6c86da3c6150f34e6a9e37a7 () {
-  const state__form_input_state = useContext(StateContexts.state__form_input_state)
-
-
-  return (
-    <RadixThemesText as={`p`}>
-  {JSON.stringify(state__form_input_state.form_data)}
-</RadixThemesText>
-  )
-}
-
 export function Fragment_1762bb90abdb81b879b2a22edbbe01a1 () {
   const [addEvents, connectError] = useContext(EventLoopContext);
 
@@ -80,18 +40,70 @@ export function Fragment_1762bb90abdb81b879b2a22edbbe01a1 () {
   )
 }
 
+export function Text_e1ef53df896217f18765f749b6696cfc () {
+  const state__form_input_state = useContext(StateContexts.state__form_input_state)
+
+
+  return (
+    <RadixThemesText as={`p`}>
+  {JSON.stringify(state__form_input_state.roast_text)}
+</RadixThemesText>
+  )
+}
+
+export function Root_f81ad03d79146a82c30e708c0976719b () {
+  
+    const handleSubmit_3f653449f441fbd5c1905281b5696878 = useCallback((ev) => {
+        const $form = ev.target
+        ev.preventDefault()
+        const form_data = {...Object.fromEntries(new FormData($form).entries()), ...{}}
+
+        addEvents([Event("state.form_input_state.handle_submit", {form_data:form_data})])
+
+        if (true) {
+            $form.reset()
+        }
+    })
+    
+  const [addEvents, connectError] = useContext(EventLoopContext);
+
+
+  return (
+    <RadixFormRoot className={`Root`} css={{"width": "100%"}} onSubmit={handleSubmit_3f653449f441fbd5c1905281b5696878}>
+  <RadixThemesFlex align={`start`} css={{"width": "100%", "flexDirection": "column"}} gap={`2`}>
+  <RadixThemesTextField.Input css={{"defaultValue": "search"}} name={`input`} placeholder={`you want to waste money on...`} required={true} type={`password`}/>
+  <RadixThemesButton type={`submit`}>
+  {`Submit`}
+</RadixThemesButton>
+</RadixThemesFlex>
+</RadixFormRoot>
+  )
+}
+
+export function Text_656977eb6c86da3c6150f34e6a9e37a7 () {
+  const state__form_input_state = useContext(StateContexts.state__form_input_state)
+
+
+  return (
+    <RadixThemesText as={`p`}>
+  {JSON.stringify(state__form_input_state.form_data)}
+</RadixThemesText>
+  )
+}
+
 export default function Component() {
 
   return (
     <Fragment>
   <Fragment_1762bb90abdb81b879b2a22edbbe01a1/>
   <RadixThemesFlex align={`start`} css={{"width": "100%", "flexDirection": "column"}} gap={`2`}>
-  <Root_c3147bee8f7d6274585e64d5b1f9f38c/>
+  <Root_f81ad03d79146a82c30e708c0976719b/>
   <RadixThemesSeparator css={{"width": "100%"}} size={`4`}/>
   <RadixThemesHeading>
   {`Results`}
 </RadixThemesHeading>
   <Text_656977eb6c86da3c6150f34e6a9e37a7/>
+  <Text_e1ef53df896217f18765f749b6696cfc/>
 </RadixThemesFlex>
   <NextHead>
   <title>
