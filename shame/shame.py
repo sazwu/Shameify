@@ -1,6 +1,7 @@
 """Welcome to Reflex! This file outlines the steps to create a basic app."""
 
 from rxconfig import config
+from shame_scraping import get_product
 
 import reflex as rx
 import json
@@ -15,10 +16,10 @@ class Product:
 
 class ProductState(rx.State):
     """The app state."""
-    test_products = [Product]
+    products = [Product]
 
     def set_products(self, products):
-        self.test_products = products
+        self.products = products
 
     def generate_shame(self, product: Product):
         # TODO..... testing formatting json input to api
@@ -29,6 +30,14 @@ class ProductState(rx.State):
         # TODO: figure out how to export call_ai from ai.py
         # call_ai(message)
         
+class FormInputState(rx.State):
+    form_data: dict = {}
+
+    def handle_submit(self, form_data: dict):
+        """Handle the form submit."""
+        self.form_data = form_data
+        val = get_product(form_data["input"])
+        print(val)
 
 def index() -> rx.Component:
     # just testing data
@@ -40,14 +49,28 @@ def index() -> rx.Component:
     ProductState.set_products(products)
 
     # TODO should show a grid of cards of all products in ProductState....figure out how to do that lol
-    return rx.container(
-        rx.grid(
-            rx.card({products[0].name}, height="10vh"),
-            columns="3",
-            spacing="4",
+    # TODO remove default value after url validation
+    return rx.vstack(
+        rx.form.root(
+            rx.vstack(
+                rx.input(
+                    name="input",
+                    default_value="search",
+                    placeholder="Input text here...",
+                    type="password",
+                    required=True,
+                ),
+                rx.button("Submit", type="submit"),
+                width="100%",
+            ),
+            on_submit=FormInputState.handle_submit,
+            reset_on_submit=True,
             width="100%",
         ),
-        # rx.button("Shame", ProductState.generate_shame(products[0]))
+        rx.divider(width="100%"),
+        rx.heading("Results"),
+        rx.text(FormInputState.form_data.to_string()),
+        width="100%",
     )
 
 app = rx.App()

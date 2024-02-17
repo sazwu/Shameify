@@ -1,14 +1,55 @@
 /** @jsxImportSource @emotion/react */
 
 
-import { Fragment, useContext } from "react"
-import { EventLoopContext } from "/utils/context"
-import { Event, getBackendURL, isTrue } from "/utils/state"
-import { Card as RadixThemesCard, Container as RadixThemesContainer, Dialog as RadixThemesDialog, Grid as RadixThemesGrid, Text as RadixThemesText } from "@radix-ui/themes"
+import { Fragment, useCallback, useContext } from "react"
+import { EventLoopContext, StateContexts } from "/utils/context"
+import { Event, getBackendURL, getRefValue, getRefValues, isTrue } from "/utils/state"
+import { Button as RadixThemesButton, Dialog as RadixThemesDialog, Flex as RadixThemesFlex, Heading as RadixThemesHeading, Separator as RadixThemesSeparator, Text as RadixThemesText, TextField as RadixThemesTextField } from "@radix-ui/themes"
 import env from "/env.json"
+import { Root as RadixFormRoot } from "@radix-ui/react-form"
 import NextHead from "next/head"
 
 
+
+export function Root_c3147bee8f7d6274585e64d5b1f9f38c () {
+  
+    const handleSubmit_3f653449f441fbd5c1905281b5696878 = useCallback((ev) => {
+        const $form = ev.target
+        ev.preventDefault()
+        const form_data = {...Object.fromEntries(new FormData($form).entries()), ...{}}
+
+        addEvents([Event("state.form_input_state.handle_submit", {form_data:form_data})])
+
+        if (true) {
+            $form.reset()
+        }
+    })
+    
+  const [addEvents, connectError] = useContext(EventLoopContext);
+
+
+  return (
+    <RadixFormRoot className={`Root`} css={{"width": "100%"}} onSubmit={handleSubmit_3f653449f441fbd5c1905281b5696878}>
+  <RadixThemesFlex align={`start`} css={{"width": "100%", "flexDirection": "column"}} gap={`2`}>
+  <RadixThemesTextField.Input css={{"defaultValue": "search"}} name={`input`} placeholder={`Input text here...`} required={true} type={`password`}/>
+  <RadixThemesButton type={`submit`}>
+  {`Submit`}
+</RadixThemesButton>
+</RadixThemesFlex>
+</RadixFormRoot>
+  )
+}
+
+export function Text_656977eb6c86da3c6150f34e6a9e37a7 () {
+  const state__form_input_state = useContext(StateContexts.state__form_input_state)
+
+
+  return (
+    <RadixThemesText as={`p`}>
+  {JSON.stringify(state__form_input_state.form_data)}
+</RadixThemesText>
+  )
+}
 
 export function Fragment_1762bb90abdb81b879b2a22edbbe01a1 () {
   const [addEvents, connectError] = useContext(EventLoopContext);
@@ -44,13 +85,14 @@ export default function Component() {
   return (
     <Fragment>
   <Fragment_1762bb90abdb81b879b2a22edbbe01a1/>
-  <RadixThemesContainer>
-  <RadixThemesGrid columns={`3`} css={{"width": "100%"}} gap={`4`}>
-  <RadixThemesCard css={{"height": "10vh"}}>
-  {`["white dress"]`}
-</RadixThemesCard>
-</RadixThemesGrid>
-</RadixThemesContainer>
+  <RadixThemesFlex align={`start`} css={{"width": "100%", "flexDirection": "column"}} gap={`2`}>
+  <Root_c3147bee8f7d6274585e64d5b1f9f38c/>
+  <RadixThemesSeparator css={{"width": "100%"}} size={`4`}/>
+  <RadixThemesHeading>
+  {`Results`}
+</RadixThemesHeading>
+  <Text_656977eb6c86da3c6150f34e6a9e37a7/>
+</RadixThemesFlex>
   <NextHead>
   <title>
   {`Reflex App`}
