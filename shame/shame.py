@@ -29,6 +29,12 @@ filename = f"{config.app_name}/{config.app_name}.py"
 #             "content": {product.name + " costs " + product.price + ", made of " + product.desc},
 #         }
         
+class CondSimpleState(rx.State):
+    show: bool = True
+
+    def change(self):
+        self.show = not (self.show)
+
 class FormInputState(rx.State):
     form_data: dict = {}
     roast_text: dict = {}
@@ -36,6 +42,8 @@ class FormInputState(rx.State):
     def handle_submit(self, form_data: dict):
         """Handle the form submit."""
         self.form_data = form_data
+        # show text
+        CondSimpleState.change
         val = get_product(form_data["input"])
         print(val)
         scraped_data = get_roasted({
@@ -46,18 +54,14 @@ class FormInputState(rx.State):
             "content" : scraped_data
         }, True)
         print(roast)
-        self.roast_text = roast
+        self.roast_text = roast.split('?')
+
+def display_text(text):
+    return(
+        rx.text(text.to_string() + "?\n\n")
+    )
 
 def index() -> rx.Component:
-    # just testing data
-    # products: list[Product] = [
-    # Product(name="white dress", price=10, desc="10% linen 90% polyester made in China"),
-    # Product(name="Product 2", price=20, desc="Description 2"),
-    # Product(name="Product 3", price=30, desc="Description 3")
-    # ]
-    # ProductState.set_products(products)
-
-    # TODO should show a grid of cards of all products in ProductState....figure out how to do that lol
     return rx.vstack(
         rx.form.root(
             rx.vstack(
@@ -70,6 +74,12 @@ def index() -> rx.Component:
                 ),
                 rx.button("Submit", type="submit"),
                 width="100%",
+            ),
+            rx.cond(
+                CondSimpleState.show,
+                rx.foreach(
+                    FormInputState.roast_text, display_text
+                ),
             ),
             on_submit=FormInputState.handle_submit,
             reset_on_submit=True,

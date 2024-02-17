@@ -5,7 +5,7 @@ import sys
 TOGETHER_API_KEY = os.environ.get("TOGETHER_API_KEY")
 
 #todo: figure out how to add api key to env
-client = OpenAI(api_key=TOGETHER_API_KEY,
+client = OpenAI(api_key="fb92edaf615a32e491e05ca30e3a40a53a8bd3f8b7be1d965806bc12454906ca",
   base_url='https://api.together.xyz',
 )
 
