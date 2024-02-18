@@ -55,8 +55,8 @@ class FormInputState(rx.State):
         self.product_materials = ' '.join(words[materials_index + 1: brand_index + 1])[:-6]
         self.product_brand = ' '.join(words[brand_index + 1: len(words)])
 
-    def get_url(self):
-        rx.script("chrome.storage.sync.get(['url'], function(items){ console.log('get successful')});")
+    # def get_url(self):
+    #     rx.script("chrome.storage.sync.get(['url'], function(items){ console.log('get successful')});")
 
     def handle_submit(self, form_data: dict):
         """Handle the form submit."""
