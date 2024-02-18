@@ -62,8 +62,8 @@ class FormInputState(rx.State):
         """Handle the form submit."""
         self.form_data = form_data
         # show text
-        # val = get_product(form_data["input"])
-        val = get_product(self.get_url)
+        val = get_product(form_data["input"])
+        # val = get_product(self.get_url)
         scraped_data = get_roasted({
             "role" : "user", 
             "content" : val}, False )
