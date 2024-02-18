@@ -3,9 +3,15 @@
 from rxconfig import config
 from shame_scraping import get_product
 from .ai import get_roasted
+from typing import List
+from time import sleep
+from nltk.tokenize import sent_tokenize
 
 import reflex as rx
 import json
+import sys
+import time
+import nltk
 
 filename = f"{config.app_name}/{config.app_name}.py"
 
@@ -37,7 +43,7 @@ class CondSimpleState(rx.State):
 
 class FormInputState(rx.State):
     form_data: dict = {}
-    roast_text: dict = {}
+    roast_text: list = []
 
     def handle_submit(self, form_data: dict):
         """Handle the form submit."""
@@ -54,12 +60,25 @@ class FormInputState(rx.State):
             "content" : scraped_data
         }, True)
         print(roast)
-        self.roast_text = roast.split('?')
+        self.roast_text = sent_tokenize(roast.lstrip().strip("\""))
 
+#send help
+def typewriter_effect(sentence, type_delay):
+    for char in sentence:
+        sys.stdout.write(char)
+        sys.stdout.flush()
+        time.sleep(type_delay)
+
+#Original function
 def display_text(text):
     return(
-        rx.text(text.to_string() + "?\n\n")
+       rx.text(text.to_string(), align="center", as_="p", 
+               style={
+                   "font-family" : "Courier New",
+                   "font-weight" : "bold",
+               })
     )
+
 
 def index() -> rx.Component:
     return rx.vstack(
