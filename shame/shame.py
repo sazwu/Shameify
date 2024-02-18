@@ -13,28 +13,19 @@ import json
 import sys
 import time
 import nltk
+import asyncio
 
 filename = f"{config.app_name}/{config.app_name}.py"
 
-# class Product:
-#      def __init__(self, name, price, desc):
-#         self.name = name
-#         self.price = price
-#         self.desc = desc
+class ProgressExampleState(rx.State):
+    show_progress: bool = False
 
-# class ProductState(rx.State):
-#     """The app state."""
-#     products = [Product]
-
-#     def set_products(self, products):
-#         self.products = products
-
-#     def generate_shame(self, product: Product):
-#         # TODO..... testing formatting json input to api
-#         message = {
-#             "role": "user",
-#             "content": {product.name + " costs " + product.price + ", made of " + product.desc},
-#         }
+    async def increment(self):
+        self.show_progress = True
+        yield
+        # Think really hard.
+        await asyncio.sleep(6)
+        self.show_progress = False
         
 class CondSimpleState(rx.State):
     show: bool = True
@@ -45,27 +36,47 @@ class CondSimpleState(rx.State):
 class FormInputState(rx.State):
     form_data: dict = {}
     roast_text: list = []
+    product_name = ""
+    product_materials = ""
+    product_brand = ""
+
+    def get_index_of_field(self, words, start, term):
+        for i in range(start, len(words)):
+            if (term in words[i]):
+                return i
+    
+    def parse_product_card(self, scraped_data):
+        words = scraped_data.split(" ")
+        name_index = 0
+        description_index = self.get_index_of_field(words, name_index, "description")
+        materials_index = self.get_index_of_field(words, description_index, "materials")
+        brand_index = self.get_index_of_field(words, materials_index, "brand")
+        self.product_name = ' '.join(words[1:description_index + 1])[:-12]
+        self.product_materials = ' '.join(words[materials_index + 1: brand_index + 1])[:-6]
+        self.product_brand = ' '.join(words[brand_index + 1: len(words)])
 
     def handle_submit(self, form_data: dict):
         """Handle the form submit."""
         self.form_data = form_data
         # show text
-        CondSimpleState.change
         val = get_product(form_data["input"])
-        print(val)
         scraped_data = get_roasted({
             "role" : "user", 
             "content" : val}, False )
+        print(scraped_data)
         roast = get_roasted({
             "role" : "user",
             "content" : scraped_data
         }, True)
+        print()
         print(roast)
+        self.parse_product_card(scraped_data)
         self.roast_text = sent_tokenize(roast.lstrip().strip("\""))
+        CondSimpleState.change
 
 #send help
 def typewriter_effect(sentence, type_delay):
-    for char in sentence:
+    for char in sentence: 
         sys.stdout.write(char)
         sys.stdout.flush()
         time.sleep(type_delay)
@@ -77,16 +88,15 @@ def display_text(text):
                style={
                    "font-family" : "Courier New",
                    "font-weight" : "bold",
-                   "max-width" : "30%",
+                   "max-width" : "40%",
                    "margin" : "auto",
                })
     )
 
-
 def index() -> rx.Component:
     return rx.vstack(
            rx.vstack(
-            rx.heading("roast duck",
+            rx.heading("shameify",
                        style={
                            "padding":"5px"
                        }),
@@ -98,12 +108,28 @@ def index() -> rx.Component:
             rx.vstack(
                 rx.input(
                     name="input",
-                    default_value="search",
+                    default_value="",
                     placeholder="you want to waste money on...",
                     required=True,
+                    width="100%"
                 ),
-                rx.button("Submit", type="submit"),
+                rx.cond(
+                    ProgressExampleState.show_progress,
+                    rx.chakra.circular_progress(is_indeterminate=True),
+                    rx.button("submit", type="submit", on_click=ProgressExampleState.increment),
+                ),
                 width="100%",
+            ),
+            rx.cond(
+                CondSimpleState.show,
+                rx.card(
+                    rx.text(FormInputState.product_name),
+                    rx.text(FormInputState.product_materials),
+                    rx.text(FormInputState.product_brand),
+                    width="40%",
+                    variant="classic",
+                    hide=CondSimpleState.show
+                ),
             ),
             rx.cond(
                 CondSimpleState.show,
@@ -115,6 +141,7 @@ def index() -> rx.Component:
             reset_on_submit=True,
             width="100%",
         ),
+        margin="auto"
     )
 
 app = rx.App(style=style)
