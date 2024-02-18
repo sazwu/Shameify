@@ -41,7 +41,6 @@ function openLink() {
   var url = "https://pudding.cool/2021/10/judge-my-music/";
   window.open(url, "");
   chrome.storage.sync.set({ "url": url }, function(){
-      //  A data saved callback omg so fancy
       console.log("saved");
   });
 }
