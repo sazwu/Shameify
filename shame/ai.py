@@ -22,7 +22,7 @@ def get_roasted(input, roast: bool):
     messages.append(input)
     chat_completion = client.chat.completions.create(
     messages=messages,
-    model="NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO",
+    model="Qwen/Qwen1.5-14B-Chat",
     max_tokens=1024
     )
 

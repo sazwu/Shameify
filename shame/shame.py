@@ -117,11 +117,7 @@ def index() -> rx.Component:
                     required=True,
                     width="100%"
                 ),
-                rx.cond(
-                    ProgressExampleState.show_progress,
-                    rx.chakra.circular_progress(is_indeterminate=True),
-                    rx.button("submit", type="submit", on_click=ProgressExampleState.increment),
-                ),
+                rx.button("submit", type="submit"),
                 width="100%",
             ),
             rx.cond(
