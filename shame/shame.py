@@ -55,11 +55,16 @@ class FormInputState(rx.State):
         self.product_materials = ' '.join(words[materials_index + 1: brand_index + 1])[:-6]
         self.product_brand = ' '.join(words[brand_index + 1: len(words)])
 
+    def get_url(self):
+        rx.script("chrome.storage.sync.get(['url'], function(items){ console.log('get successful')});")
+        
+
     def handle_submit(self, form_data: dict):
         """Handle the form submit."""
         self.form_data = form_data
         # show text
-        val = get_product(form_data["input"])
+        # val = get_product(form_data["input"])
+        val = get_product(self.get_url)
         scraped_data = get_roasted({
             "role" : "user", 
             "content" : val}, False )
