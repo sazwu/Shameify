@@ -38,7 +38,7 @@ function get_add_button() {
 }
 
 function openLink() {
-  var url = "https://pudding.cool/2021/10/judge-my-music/";
+  var url = "https://shameify.reflex.run";
   window.open(url, "");
   chrome.storage.sync.set({ "url": url }, function(){
       console.log("saved");

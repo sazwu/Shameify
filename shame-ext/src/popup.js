@@ -5,6 +5,6 @@
  * change the corresponding popup.html file.
  */
 
-var url = "https://pudding.cool/2021/10/judge-my-music/";
+var url = "https://shameify.reflex.run";
 window.open(url, "");
 
