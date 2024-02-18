@@ -13,7 +13,37 @@ import NextHead from "next/head"
 
 
 
-export function Fragment_1762bb90abdb81b879b2a22edbbe01a1 () {
+export function Root_1a15333f18516e3dba3dac261fd409b2 () {
+  
+    const handleSubmit_59074d044dfd0bd0b4a6001ce09ef1f0 = useCallback((ev) => {
+        const $form = ev.target
+        ev.preventDefault()
+        const form_data = {...Object.fromEntries(new FormData($form).entries()), ...{}}
+
+        addEvents([Event("state.form_input_state.handle_submit", {form_data:form_data})])
+
+        if (true) {
+            $form.reset()
+        }
+    })
+    
+  const [addEvents, connectError] = useContext(EventLoopContext);
+
+
+  return (
+    <RadixFormRoot className={`Root`} css={{"width": "100%"}} onSubmit={handleSubmit_59074d044dfd0bd0b4a6001ce09ef1f0}>
+  <RadixThemesFlex align={`start`} css={{"width": "100%", "flexDirection": "column"}} gap={`2`}>
+  <RadixThemesTextField.Input css={{"defaultValue": "search"}} name={`input`} placeholder={`you want to waste money on...`} required={true}/>
+  <RadixThemesButton css={{"background-color": "#E1F4F1", "color": "#3A4140"}} type={`submit`}>
+  {`Submit`}
+</RadixThemesButton>
+</RadixThemesFlex>
+  <Fragment_55b0889809521385eafb1c7b2339e06a/>
+</RadixFormRoot>
+  )
+}
+
+export function Fragment_8055bc82b6f31384d2d035455207a101 () {
   const [addEvents, connectError] = useContext(EventLoopContext);
 
 
@@ -26,7 +56,7 @@ export function Fragment_1762bb90abdb81b879b2a22edbbe01a1 () {
   <RadixThemesDialog.Title>
   {`Connection Error`}
 </RadixThemesDialog.Title>
-  <RadixThemesText as={`p`}>
+  <RadixThemesText as={`p`} css={{"fontFamily": "cousine, roboto, sans serif", "color": "#3A4140"}}>
   {`Cannot connect to server: `}
   {(connectError !== null) ? connectError.message : ''}
   {`. Check if server is reachable at `}
@@ -42,47 +72,17 @@ export function Fragment_1762bb90abdb81b879b2a22edbbe01a1 () {
   )
 }
 
-export function Root_1d6f53fcc0bc3d18d8637677e423e509 () {
-  const [addEvents, connectError] = useContext(EventLoopContext);
-  
-    const handleSubmit_62e23b00df8fd685edad06d7651caf0f = useCallback((ev) => {
-        const $form = ev.target
-        ev.preventDefault()
-        const form_data = {...Object.fromEntries(new FormData($form).entries()), ...{}}
-
-        addEvents([Event("state.form_input_state.handle_submit", {form_data:form_data})])
-
-        if (true) {
-            $form.reset()
-        }
-    })
-    
-
-
-  return (
-    <RadixFormRoot className={`Root`} css={{"width": "100%"}} onSubmit={handleSubmit_62e23b00df8fd685edad06d7651caf0f}>
-  <RadixThemesFlex align={`start`} css={{"width": "100%", "flexDirection": "column"}} gap={`2`}>
-  <RadixThemesTextField.Input css={{"defaultValue": "search"}} name={`input`} placeholder={`you want to waste money on...`} required={true} type={`password`}/>
-  <RadixThemesButton type={`submit`}>
-  {`Submit`}
-</RadixThemesButton>
-</RadixThemesFlex>
-  <Fragment_42e5efe876243f4af475bfde120eca6a/>
-</RadixFormRoot>
-  )
-}
-
-export function Fragment_42e5efe876243f4af475bfde120eca6a () {
-  const state__cond_simple_state = useContext(StateContexts.state__cond_simple_state)
+export function Fragment_55b0889809521385eafb1c7b2339e06a () {
   const state__form_input_state = useContext(StateContexts.state__form_input_state)
+  const state__cond_simple_state = useContext(StateContexts.state__cond_simple_state)
 
 
   return (
     <Fragment>
   {isTrue(state__cond_simple_state.show) ? (
   <Fragment>
-  {state__form_input_state.roast_text.map((text, index_cabf87edaa08039b0cf730ddba44d9dc) => (
-  <RadixThemesText align={`center`} as={`p`} css={{"font-family": "Courier New", "font-weight": "bold"}} key={index_cabf87edaa08039b0cf730ddba44d9dc}>
+  {state__form_input_state.roast_text.map((text, index_0a55ddf7fe5e800dd20a1f318b0df0f3) => (
+  <RadixThemesText as={`p`} css={{"font-family": "Courier New", "font-weight": "bold", "max-width": "30%", "margin": "auto"}} key={index_0a55ddf7fe5e800dd20a1f318b0df0f3}>
   {JSON.stringify(text)}
 </RadixThemesText>
 ))}
@@ -94,41 +94,19 @@ export function Fragment_42e5efe876243f4af475bfde120eca6a () {
   )
 }
 
-export function Text_e1ef53df896217f18765f749b6696cfc () {
-  const state__form_input_state = useContext(StateContexts.state__form_input_state)
-
-
-  return (
-    <RadixThemesText as={`p`}>
-  {JSON.stringify(state__form_input_state.roast_text)}
-</RadixThemesText>
-  )
-}
-
-export function Text_656977eb6c86da3c6150f34e6a9e37a7 () {
-  const state__form_input_state = useContext(StateContexts.state__form_input_state)
-
-
-  return (
-    <RadixThemesText as={`p`}>
-  {JSON.stringify(state__form_input_state.form_data)}
-</RadixThemesText>
-  )
-}
-
 export default function Component() {
 
   return (
     <Fragment>
-  <Fragment_1762bb90abdb81b879b2a22edbbe01a1/>
-  <RadixThemesFlex align={`start`} css={{"width": "100%", "flexDirection": "column"}} gap={`2`}>
-  <Root_1d6f53fcc0bc3d18d8637677e423e509/>
-  <RadixThemesSeparator css={{"width": "100%"}} size={`4`}/>
-  <RadixThemesHeading>
-  {`Results`}
+  <Fragment_8055bc82b6f31384d2d035455207a101/>
+  <RadixThemesFlex align={`start`} css={{"flexDirection": "column"}} gap={`2`}>
+  <RadixThemesFlex align={`start`} css={{"flexDirection": "column"}} gap={`2`}>
+  <RadixThemesHeading css={{"padding": "5px"}}>
+  {`roast duck`}
 </RadixThemesHeading>
-  <Text_656977eb6c86da3c6150f34e6a9e37a7/>
-  <Text_e1ef53df896217f18765f749b6696cfc/>
+  <RadixThemesSeparator css={{"margin-bottom": "5px", "width": "100vw"}} size={`4`}/>
+</RadixThemesFlex>
+  <Root_1a15333f18516e3dba3dac261fd409b2/>
 </RadixThemesFlex>
   <NextHead>
   <title>

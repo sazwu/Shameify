@@ -1,1 +1,1 @@
-export default {"styles": {"global": {":root": {}, "body": {}}}}
+export default {"styles": {"global": {":root": {}, "body": {"rx.button ::hover": {"background-color": "#B6DED7"}, "margin": "10px"}}}}
