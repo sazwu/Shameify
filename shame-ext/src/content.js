@@ -1,28 +1,67 @@
 /* File: content.js
  * ---------------
- * Hello! You'll be making most of your changes
- * in this file. At a high level, this code replaces
- * the substring "cal" with the string "butt" on web pages.
- *
  * This file contains javascript code that is executed
  * everytime a webpage loads over HTTP or HTTPS.
  */
 
-// var elements = document.getElementsByTagName('*');
+document.body.onload = addElement;
 
-// for (var i = 0; i < elements.length; i++) {
-//     var element = elements[i];
+/*
+ * Given a button element, look through class/label/id/etc
+ * to check if it's the "add to bag" button
+ * if so, return true
+*/
+function is_add_button(button) {
+  let keywords = ["add to bag", "purchase", "buy", "add to cart"];
+  let text = button.textContent.toLowerCase();
+  for (let i = 0; i < keywords.length; i++) {
+    if (text.includes(keywords[i])) {
+      return true;
+    }
+  }
+  return false;
+}
 
-//     for (var j = 0; j < element.childNodes.length; j++) {
-//         var node = element.childNodes[j];
+/*
+ * Search through all buttons and
+ * return the "add to bag" button
+ * Assumption: we are on a shopping page w/ an add to bag button
+*/
+function get_add_button() {
+    var buttons = document.getElementsByTagName('button');
+    var button = document.getElementsByTagName('body')[0]; // things to change
+    for (let i = 0; i < buttons.length; i++) {
+        if (is_add_button(buttons[i])) {
+            return buttons[i];
+        }
+    }
+    return null;
+}
 
-//         if (node.nodeType === 3) {
-//             var text = node.nodeValue;
-//             var replacedText = text.replace(/cal/gi, "butt"); // replaces "cal," "Cal", etc. with "butt"
+function openLink() {
+  var url = "https://pudding.cool/2021/10/judge-my-music/";
+  window.open(url, "");
+}
 
-//             if (replacedText !== text) {
-//                 element.replaceChild(document.createTextNode(replacedText), node);
-//               }
-//         }
-//     }
-// }
+function addElement() {
+  // create a new div element
+  const newDiv = document.createElement("div");
+
+  // and give it some content
+  const newContent = document.createElement("div");
+  newContent.innerHTML = "<img src='https://em-content.zobj.net/source/google/387/duck_1f986.png' width='150' height='155'>";
+  document.body.appendChild(newContent);
+
+  // add the text node to the newly created div
+  newDiv.appendChild(newContent);
+  newDiv.onclick = function(){openLink()};
+
+  // add the newly created element and its content into the DOM
+  const button = get_add_button();
+  if (button != null) {
+    const parent = button.parentElement;
+    parent.insertBefore(newDiv, button);
+  }
+  // const currentDiv = document.getElementById("button1");
+  // document.body.insertBefore(newDiv, currentDiv);
+}
