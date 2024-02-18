@@ -5,23 +5,6 @@
  * change the corresponding popup.html file.
  */
 
-
 var url = "https://pudding.cool/2021/10/judge-my-music/";
+window.open(url, "");
 
-chrome.tabs.create({active: true, url: url});
-
-
-
-
-
-/*document.addEventListener('DOMContentLoaded', function () {
-    var links = document.getElementsByTagName("a");
-    for (var i = 0; i < links.length; i++) {
-        (function () {
-            var ln = links[i];
-            ln.onclick = function () {
-                chrome.tabs.create({active: true, url: "https://pudding.cool/2021/10/judge-my-music/"});
-            };
-        })();
-    }
-});*/
